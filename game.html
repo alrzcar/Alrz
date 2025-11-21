@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سباق سيارات ورشة الرز</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+        
+        h1 {
+            margin-bottom: 20px;
+            color: #fdbb2d;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .game-info {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .game-area {
+            position: relative;
+            height: 400px;
+            background-color: #2c3e50;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border: 3px solid #fdbb2d;
+        }
+        
+        .road {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #555 0%, #555 10%, #fff 10%, #fff 20%, #555 20%, #555 30%, #fff 30%, #fff 40%, #555 40%, #555 50%, #fff 50%, #fff 60%, #555 60%, #555 70%, #fff 70%, #fff 80%, #555 80%, #555 90%, #fff 90%, #fff 100%);
+            background-size: 100% 50px;
+            animation: roadMove 2s linear infinite;
+        }
+        
+        @keyframes roadMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 50px; }
+        }
+        
+        .car {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 150px;
+            background-color: #e74c3c;
+            border-radius: 10px 10px 0 0;
+            z-index: 10;
+        }
+        
+        .car::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 5px;
+            width: 70px;
+            height: 60px;
+            background-color: #3498db;
+            border-radius: 5px;
+        }
+        
+        .car::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 5px;
+            width: 20px;
+            height: 20px;
+            background-color: #2c3e50;
+            border-radius: 50%;
+        }
+        
+        .car .wheel:nth-child(1) {
+            position: absolute;
+            bottom: -10px;
+            left: 15px;
+            width: 20px;
+            height: 20px;
+            background-color: #2c3e50;
+            border-radius: 50%;
+        }
+        
+        .car .wheel:nth-child(2) {
+            position: absolute;
+            bottom: -10px;
+            right: 15px;
+            width: 20px;
+            height: 20px;
+            background-color: #2c3e50;
+            border-radius: 50%;
+        }
+        
+        .car-name {
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            text-shadow: 1px 1px 2px black;
+            z-index: 11;
+        }
+        
+        .obstacle {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background-color: #9b59b6;
+            border-radius: 5px;
+            top: -60px;
+            z-index: 5;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .direction-buttons {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .start-button-container {
+            position: absolute;
+            top: -70px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        button {
+            padding: 12px 25px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 0 #c0392b;
+        }
+        
+        button:hover {
+            background-color: #c0392b;
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #a93226;
+        }
+        
+        button:active {
+            transform: translateY(4px);
+            box-shadow: none;
+        }
+        
+        .discount-code {
+            background-color: rgba(46, 204, 113, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .code {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2ecc71;
+            letter-spacing: 3px;
+            margin: 10px 0;
+            text-shadow: 0 0 10px rgba(46, 204, 113, 0.5);
+        }
+        
+        .instructions {
+            margin-top: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: right;
+        }
+        
+        .score {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fdbb2d;
+            z-index: 20;
+        }
+        
+        .game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            z-index: 100;
+            display: none;
+        }
+        
+        @media (max-width: 600px) {
+            .game-area {
+                height: 300px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .direction-buttons {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            button {
+                width: 45%;
+            }
+            
+            .start-button-container {
+                position: static;
+                transform: none;
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            
+            .start-button-container button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>سباق سيارات ورشة الرز</h1>
+        
+        <div class="game-info">
+            <p>أكمل اللعبة لتحصل على كود خصم 15% على خدمات تصليح السيارات!</p>
+            <p>الهدف: تجاوز 10 عقبات للفوز</p>
+        </div>
+        
+        <div class="game-area">
+            <div class="road"></div>
+            <div class="score">النقاط: <span id="score">0</span></div>
+            <div class="car">
+                <div class="car-name">الرز</div>
+                <div class="wheel"></div>
+                <div class="wheel"></div>
+            </div>
+            
+            <div class="game-over" id="gameOver">
+                <h2 id="resultMessage">لقد فزت!</h2>
+                <p id="resultDetails">تهانينا! أكملت اللعبة بنجاح</p>
+                <button id="restartButton">العب مرة أخرى</button>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <div class="start-button-container">
+                <button id="startButton">ابدأ اللعبة</button>
+            </div>
+            <div class="direction-buttons">
+                <button id="leftButton">يسار</button>
+                <button id="rightButton">يمين</button>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h3>كيفية اللعب:</h3>
+            <p>استخدم أزرار "يسار" و "يمين" لتحريك السيارة وتجنب العقبات</p>
+            <p>اجمع 10 نقاط للفوز بالخصم</p>
+        </div>
+        
+        <div class="discount-code" id="discountCode">
+            <h2>مبروك! لقد فزت بكود الخصم</h2>
+            <p>استخدم هذا الكود للحصول على خصم 15% على خدماتنا:</p>
+            <div class="code" id="code">CARFIX15</div>
+            <p>هذا الكود صالح لمدة 30 يوم من تاريخ الفوز</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const car = document.querySelector('.car');
+            const gameArea = document.querySelector('.game-area');
+            const leftButton = document.getElementById('leftButton');
+            const rightButton = document.getElementById('rightButton');
+            const startButton = document.getElementById('startButton');
+            const scoreElement = document.getElementById('score');
+            const gameOver = document.getElementById('gameOver');
+            const resultMessage = document.getElementById('resultMessage');
+            const resultDetails = document.getElementById('resultDetails');
+            const restartButton = document.getElementById('restartButton');
+            const discountCode = document.getElementById('discountCode');
+            
+            let carPosition = 50; // نسبة مئوية من عرض منطقة اللعبة
+            let gameActive = false;
+            let score = 0;
+            let obstacles = [];
+            let gameInterval;
+            let obstacleInterval;
+            
+            // تحريك السيارة
+            function moveCar(direction) {
+                if (!gameActive) return;
+                
+                if (direction === 'left' && carPosition > 10) {
+                    carPosition -= 5;
+                } else if (direction === 'right' && carPosition < 90) {
+                    carPosition += 5;
+                }
+                
+                car.style.left = carPosition + '%';
+            }
+            
+            // بدء اللعبة
+            function startGame() {
+                if (gameActive) return;
+                
+                gameActive = true;
+                score = 0;
+                scoreElement.textContent = score;
+                carPosition = 50;
+                car.style.left = carPosition + '%';
+                
+                // إزالة العقبات القديمة
+                obstacles.forEach(obstacle => obstacle.remove());
+                obstacles = [];
+                
+                // إخفاء شاشة النهاية
+                gameOver.style.display = 'none';
+                discountCode.style.display = 'none';
+                
+                // إنشاء العقبات
+                obstacleInterval = setInterval(createObstacle, 1500);
+                
+                // تحديث اللعبة
+                gameInterval = setInterval(updateGame, 50);
+            }
+            
+            // إنشاء عقبة جديدة
+            function createObstacle() {
+                if (!gameActive) return;
+                
+                const obstacle = document.createElement('div');
+                obstacle.classList.add('obstacle');
+                
+                // وضع عشوائي للعقبة
+                const obstaclePosition = Math.floor(Math.random() * 80) + 10; // بين 10% و 90%
+                obstacle.style.left = obstaclePosition + '%';
+                
+                gameArea.appendChild(obstacle);
+                obstacles.push(obstacle);
+            }
+            
+            // تحديث حالة اللعبة
+            function updateGame() {
+                if (!gameActive) return;
+                
+                // تحريك العقبات
+                obstacles.forEach((obstacle, index) => {
+                    const obstacleTop = parseInt(obstacle.style.top || -60);
+                    obstacle.style.top = (obstacleTop + 5) + 'px';
+                    
+                    // اكتشاف الاصطدام
+                    if (obstacleTop > 250 && obstacleTop < 350) {
+                        const carRect = car.getBoundingClientRect();
+                        const obstacleRect = obstacle.getBoundingClientRect();
+                        
+                        if (
+                            carRect.left < obstacleRect.right &&
+                            carRect.right > obstacleRect.left &&
+                            carRect.top < obstacleRect.bottom &&
+                            carRect.bottom > obstacleRect.top
+                        ) {
+                            endGame(false);
+                            return;
+                        }
+                    }
+                    
+                    // إذا تجاوزت العقبة أسفل الشاشة
+                    if (obstacleTop > 400) {
+                        obstacle.remove();
+                        obstacles.splice(index, 1);
+                        score++;
+                        scoreElement.textContent = score;
+                        
+                        // فحص إذا فاز اللاعب
+                        if (score >= 10) {
+                            endGame(true);
+                        }
+                    }
+                });
+            }
+            
+            // إنهاء اللعبة
+            function endGame(isWin) {
+                gameActive = false;
+                clearInterval(gameInterval);
+                clearInterval(obstacleInterval);
+                
+                if (isWin) {
+                    resultMessage.textContent = 'لقد فزت!';
+                    resultDetails.textContent = 'تهانينا! أكملت اللعبة بنجاح';
+                    discountCode.style.display = 'block';
+                } else {
+                    resultMessage.textContent = 'انتهت اللعبة!';
+                    resultDetails.textContent = 'حظاً أوفر! حاول مرة أخرى';
+                }
+                
+                gameOver.style.display = 'block';
+            }
+            
+            // إعادة تشغيل اللعبة
+            function restartGame() {
+                startGame();
+            }
+            
+            // إضافة مستمعي الأحداث
+            leftButton.addEventListener('click', () => moveCar('left'));
+            rightButton.addEventListener('click', () => moveCar('right'));
+            startButton.addEventListener('click', startGame);
+            restartButton.addEventListener('click', restartGame);
+            
+            // التحكم بلوحة المفاتيح
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowRight') {
+                    moveCar('right');
+                } else if (e.key === 'ArrowLeft') {
+                    moveCar('left');
+                } else if (e.key === ' ' || e.key === 'Spacebar') {
+                    if (!gameActive) {
+                        startGame();
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
