@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>أسعار الزيوت والفلاتر</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: #eef3f9;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    header {
+      background: #1b4d89;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .container {
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .section {
+      background: #fff;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      margin-top: 0;
+      color: #1b4d89;
+    }
+
+    ul {
+      margin: 0;
+      padding-right: 20px;
+      line-height: 1.8;
+    }
+
+    footer {
+      text-align: center;
+      padding: 10px;
+      background: #1b4d89;
+      color: #fff;
+      font-size: 14px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>أسعار الزيوت والفلاتر في ورشة الرز</header>
+
+<div class="container">
+
+  <div class="section">
+    <h2>زيوت المحركات</h2>
+    <ul>
+      <li>Master 15/40 — 6L — <strong>285,000 ل.س</strong></li>
+      <li>Manol 15/40 — 5L — <strong>255,000 ل.س</strong></li>
+      <li>Manol 15/40 — 4L — <strong>215,000 ل.س</strong></li>
+      <li>Manol 15/40 — 1L — <strong>65,000 ل.س</strong></li>
+      <li>Manol 20/50 — 5L — <strong>255,000 ل.س</strong></li>
+      <li>Manol 20/50 — 4L — <strong>215,000 ل.س</strong></li>
+      <li>Manol 20/50 — 1L — <strong>65,000 ل.س</strong></li>
+      <li>Manol 10/40 — 4L — <strong>215,000 ل.س</strong></li>
+      <li>Manol 10/40 — 1L — <strong>65,000 ل.س</strong></li>
+
+      <li>TXT 20/50 — 4L — <strong>200,000 ل.س</strong></li>
+      <li>TXT 20/50 — 1L — <strong>55,000 ل.س</strong></li>
+      <li>TXT 15/40 — 4L — <strong>200,000 ل.س</strong></li>
+      <li>TXT 15/40 — 1L — <strong>55,000 ل.س</strong></li>
+      <li>TXT 10/40 — 4L — <strong>200,000 ل.س</strong></li>
+      <li>TXT 10/40 — 1L — <strong>55,000 ل.س</strong></li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>زيوت إضافية</h2>
+    <ul>
+      <li>زيت دركسيون أحمر — <strong>30,000 ل.س</strong></li>
+      <li>زيت فرام — <strong>15,000 ل.س</strong></li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>زيت الشنجمان</h2>
+    <ul>
+      <li>زيت شنجمان 1 لتر — <strong>50,000 ل.س</strong></li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>فلاتر الزيت</h2>
+    <ul>
+      <li>حشوة هونداي أفانتي — <strong>35,000 ل.س</strong></li>
+      <li>حشوة دي إم — <strong>35,000 ل.س</strong></li>
+      <li>حشوة فيرناكروز / موهافي / دي إم مازوت — <strong>40,000 ل.س</strong></li>
+      <li>فلتر زيت هونداي SO8130 — <strong>45,000 ل.س</strong></li>
+      <li>فلتر زيت هونداي تكسي 2630035504 — <strong>25,000 ل.س</strong></li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>فلاتر المازوت</h2>
+    <ul>
+      <li>فلتر مازوت هونداي كيا 710-23-570 — <strong>35,000 ل.س</strong></li>
+      <li>فلتر مازوت بورتر فخار 10م — 31922-2900 — <strong>45,000 ل.س</strong></li>
+      <li>فلتر مازوت بورتر فخار 8م WK824/3 — <strong>—</strong> (أخبرني السعر)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>فلاتر الهوا</h2>
+    <ul>
+      <li>28113-2300 — <strong>60,000 ل.س</strong></li>
+      <li>28113-2F2000 — <strong>60,000 ل.س</strong></li>
+      <li>2B000 — <strong>60,000 ل.س</strong></li>
+      <li>28113-D3100 — <strong>60,000 ل.س</strong></li>
+      <li>28113-08000 — <strong>60,000 ل.س</strong></li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>فلاتر البنزين</h2>
+    <ul>
+      <li>فلتر بنزين حديد — <strong>25,000 ل.س</strong></li>
+      <li>فلتر بنزين بلاستيك — <strong>15,000 ل.س</strong></li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>الشحم</h2>
+    <ul>
+      <li>شحم كاتو حراري — 400غ — <strong>35,000 ل.س</strong></li>
+      <li>شحم حراري أصلي — 250غ — <strong>40,000 ل.س</strong></li>
+    </ul>
+  </div>
+
+</div>
+
+<footer>
+  © 2025 ورشة الرز — أسعار الزيوت والفلاتر
+</footer>
+
+</body>
+</html>
