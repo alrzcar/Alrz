@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ورشة الرز للمنتجات</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2c5c3c 0%, #4CAF50 100%);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-title {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .product-description {
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+        
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 15px;
+        }
+        
+        .whatsapp-btn {
+            display: inline-block;
+            background: #25D366;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s ease;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            font-size: 1rem;
+        }
+        
+        .whatsapp-btn:hover {
+            background: #128C7E;
+        }
+        
+        .no-products {
+            text-align: center;
+            padding: 40px;
+            color: #7f8c8d;
+            font-size: 1.2rem;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #4CAF50;
+            font-size: 1.1rem;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 20px;
+            color: #7f8c8d;
+            border-top: 1px solid #eee;
+        }
+        
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>ورشة الرز للمنتجات</h1>
+            <p class="subtitle">أفضل المنتجات بأفضل الأسعار</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div id="products-container">
+            <div class="loading" id="loading">
+                جاري تحميل المنتجات...
+            </div>
+            <div class="no-products" id="no-products" style="display: none;">
+                لا توجد منتجات متاحة حالياً
+            </div>
+            <div class="products-grid" id="products-grid"></div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>© 2023 ورشة الرز للمنتجات. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script>
+        // تحميل البيانات تلقائياً عند فتح الصفحة
+        window.addEventListener('load', function() {
+            loadExcelFromUrl();
+        });
+
+        function convertGoogleDriveUrl(url) {
+            return url.replace('/edit?usp=drivesdk', '/export?format=xlsx')
+                     .replace('/edit#gid=', '/export?format=xlsx&gid=');
+        }
+
+        async function loadExcelFromUrl() {
+            const url = 'https://docs.google.com/spreadsheets/d/1HXo9SyfGP2DPMSaQDDXmzvHd6Z9S7RjN6c5EzhE0HIE/edit?usp=drivesdk';
+            const loadingElement = document.getElementById('loading');
+            
+            try {
+                // تحويل رابط Google Drive إلى رابط قابل للتحميل
+                const downloadUrl = convertGoogleDriveUrl(url);
+                
+                // استخدام CORS proxy
+                const proxyUrl = 'https://api.allorigins.win/raw?url=';
+                const response = await fetch(proxyUrl + encodeURIComponent(downloadUrl));
+                
+                if (!response.ok) {
+                    throw new Error(`خطأ في تحميل الملف: ${response.status}`);
+                }
+                
+                const arrayBuffer = await response.arrayBuffer();
+                const data = new Uint8Array(arrayBuffer);
+                const workbook = XLSX.read(data, { type: 'array' });
+                
+                // الحصول على أول ورقة عمل
+                const firstSheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[firstSheetName];
+                
+                // تحويل الورقة إلى JSON
+                const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+                
+                // معالجة البيانات وعرض المنتجات
+                processExcelData(jsonData);
+                loadingElement.style.display = 'none';
+                
+            } catch (error) {
+                console.error('Error loading Excel file:', error);
+                // في حالة فشل التحميل، عرض بيانات تجريبية
+                setTimeout(() => {
+                    loadSampleData();
+                    loadingElement.style.display = 'none';
+                }, 1000);
+            }
+        }
+
+        function loadSampleData() {
+            const sampleData = [
+                ['اسم المنتج', 'رابط الصورة', 'السعر', 'الوصف'],
+                ['منتج ورشة الرز ١', 'https://via.placeholder.com/400x300/4A90E2/FFFFFF?text=منتج+ورشة+الرز', '25000', 'منتج عالي الجودة من ورشة الرز'],
+                ['منتج ورشة الرز ٢', 'https://via.placeholder.com/400x300/50C878/FFFFFF?text=منتج+مميز', '35000', 'منتج فاخر من أفضل الخامات'],
+                ['منتج ورشة الرز ٣', 'https://via.placeholder.com/400x300/FF6B6B/FFFFFF?text=منتج+جديد', '45000', 'أحدث المنتجات بتصميم عصري']
+            ];
+            
+            processExcelData(sampleData);
+        }
+        
+        function processExcelData(data) {
+            const products = [];
+            
+            for (let i = 1; i < data.length; i++) {
+                const row = data[i];
+                if (row && row.length >= 4) {
+                    const product = {
+                        name: row[0] || 'منتج بدون اسم',
+                        image: row[1] || 'https://via.placeholder.com/400x300/CCCCCC/FFFFFF?text=ورشة+الرز',
+                        price: row[2] || '0',
+                        description: row[3] || 'منتج مميز من ورشة الرز'
+                    };
+                    products.push(product);
+                }
+            }
+            
+            displayProducts(products);
+        }
+        
+        function displayProducts(products) {
+            const productsGrid = document.getElementById('products-grid');
+            const noProducts = document.getElementById('no-products');
+            const loading = document.getElementById('loading');
+            
+            if (products.length === 0) {
+                noProducts.style.display = 'block';
+                productsGrid.innerHTML = '';
+                loading.style.display = 'none';
+                return;
+            }
+            
+            noProducts.style.display = 'none';
+            loading.style.display = 'none';
+            productsGrid.innerHTML = '';
+            
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                
+                productCard.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="product-image" 
+                         onerror="this.src='https://via.placeholder.com/400x300/CCCCCC/FFFFFF?text=ورشة+الرز'">
+                    <div class="product-info">
+                        <h3 class="product-title">${product.name}</h3>
+                        <p class="product-description">${product.description}</p>
+                        <div class="product-price">${formatPrice(product.price)} ل.س</div>
+                        <a href="https://wa.me/963994743600?text=مرحبا، أريد الاستفسار عن المنتج: ${encodeURIComponent(product.name)} - السعر: ${encodeURIComponent(product.price)} ليرة سورية" 
+                           class="whatsapp-btn" target="_blank">
+                           📱 تواصل عبر واتساب
+                        </a>
+                    </div>
+                `;
+                
+                productsGrid.appendChild(productCard);
+            });
+        }
+        
+        function formatPrice(price) {
+            const num = parseFloat(price);
+            if (isNaN(num)) return '0';
+            return num.toLocaleString('ar-SY');
+        }
+
+        // تحديث تلقائي كل دقيقة
+        setInterval(loadExcelFromUrl, 60000);
+    </script>
+</body>
+</html>
